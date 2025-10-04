@@ -1,13 +1,14 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const User = require("./models/User");
-
+const path = require("path");
+const bodyParser = require("body-parser");
+const authRoutes = require("./routes/authRoutes.js")
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
-// initialize other requirements app, port, mongouri
+
 const MONGO_URI = process.env.MONGO_URI;
 
 mongoose
@@ -18,8 +19,19 @@ mongoose
   .then(() => console.log("✅ Connected to MongoDB Atlas"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
+// Middleware
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extend: true }));
+
+// statically load the public folder
+app.use(express.static(path.join(__dirname, "public")));
+
+// Routes
+app.use("/auth", authRoutes);
+
+// Serve the login.hthml from the public folder for home route /.
 app.get("/", (req, res) => {
-  res.send("Bank Server is running!");
+  res.sendFile(path.join(__dirname, "public", "login.html"));
 });
 
 app.listen(PORT, () => {

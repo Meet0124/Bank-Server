@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bank Registration</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Register an Account</h1>
+
+    <form id="registerForm">
+      <input type="text" id="name" placeholder="Full Name" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+
+      <label for="role">Select Role:</label>
+      <select id="role" required>
+        <option value="customer" selected>Customer</option>
+        <option value="admin">Admin</option>
+      </select>
+
+      <button type="submit">Register</button>
+    </form>
+
+    <p>
+      Already have an account? <a href="login.html">Login</a>
+    </p>
+  </div>
+
+  <!-- Note: We include api.js because register.js depends on it. -->
+  <script src="js/api.js"></script>
+  <script src="js/register.js"></script>
+</body>
+</html>
