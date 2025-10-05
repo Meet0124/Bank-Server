@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Admin Dashboard</h1>
+    <button id="logoutBtn" style="float:right;">🚪 Logout</button>
+
+    <!-- The title will be changed to "All User Transaction Logs" by admin.js -->
+    <h2>Loading...</h2>
+
+    <!-- This list will be dynamically filled with transaction logs by admin.js -->
+    <ul id="allPayments"></ul>
+  </div>
+
+  <!-- The script tags MUST be in this order to function correctly -->
+  <script src="https://unpkg.com/jwt-decode@3.1.2/build/jwt-decode.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

@@ -19,4 +19,24 @@ router.post("/register", async (req, res)=>{
         res.status(500).json({ message: "Server error" });
     }
 })
+
+router.post('/login', async (req,res)=>{
+    const{email,password} = req.body;
+    try {
+        const user = await User.findOne({email});
+        if (!user) return res.status(400).json({ message: "Invalid credentials" }); 
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) return res.status(400).json({ message: "Invalid credentials" });
+
+        const token = jwt.sign( 
+            {userId: user._id, name: user.name, role:user.role, balance: user.balance}
+            ,JWT_SECRET
+            ,{expiresIn: "2h"});
+        res.json({ message: "Login successful", token });
+    } catch (e) {
+        console.error(e);
+         res.status(500).json({ message: "Server error" });
+    }
+})
 module.exports = router
