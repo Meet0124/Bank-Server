@@ -1,8 +1,12 @@
 const express = require('express');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 
+dotenv.config();
 const router = express.Router();
+const JWT_SECRET = process.env.JWT_SECRET;
 
 router.post("/register", async (req, res)=>{
     const {name,email,password,role} = req.body;
