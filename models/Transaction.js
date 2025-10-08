@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const transactionSchema = new mongoose.Schema({
-  // complete the transaction Schema
   senderId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
