@@ -10,13 +10,16 @@ const router = express.Router();
 router.get("/users", authenticateJWT, async (req, res) => {
   try {
     // Find all users who are "customers" but exclude the current user
-    const customerId = req.body.userId;
+    const customerId = req.user.userId; // FIXED: Changed from req.body.userId
     const customers = await User.find({
       role: "customer",
       _id: { $ne: customerId },
     }).select("name _id");
+
+    console.log("Found customers:", customers.length); // Debug log
     res.json(customers);
   } catch (e) {
+    console.error("Error fetching users:", e);
     res.status(500).json({ message: "Server error fetching users" });
   }
 });
@@ -63,9 +66,9 @@ router.post("/transfer", authenticateJWT, async (req, res) => {
     });
 
     // Save all changes to the database
-    await sender.save();
-    await recipient.save();
-    await transaction.save();
+    await sender.save({ session });
+    await recipient.save({ session });
+    await transaction.save({ session });
 
     // If all saves were successful, commit the transaction
     await session.commitTransaction();
@@ -93,7 +96,7 @@ router.get("/transactions", authenticateJWT, async (req, res) => {
   try {
     // Fetch all transactions from the database.
     const allTransaction = await Transaction.find({})
-      .sort({ created: -1 })
+      .sort({ createdAt: -1 }) // FIXED: Changed from 'created' to 'createdAt'
       .populate("senderId", "name")
       .populate("recipientId", "name");
     // Sort by newest first for a clear log.
