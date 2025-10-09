@@ -2,10 +2,19 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
   // 1. --- Security and User Check ---
+  // NEW CODE:
   const user = getCurrentUser();
-  if (!user || user.role !== "customer") {
-    alert("Access Denied. Please login as a customer.");
-    window.location.href = "login.html";
+  if (!user) {
+    console.log("❌ No valid token found - redirecting to login");
+    window.location.replace("/login.html"); 
+    return;
+  }
+
+  if (user.role !== "customer") {
+    console.log("❌ User role is:", user.role, "- not a customer");
+    alert("Access Denied. This page is for customers only.");
+    localStorage.removeItem("token");
+    window.location.replace("/login.html"); 
     return;
   }
 

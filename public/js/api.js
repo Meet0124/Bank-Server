@@ -60,10 +60,10 @@ function getCurrentUser() {
  * Logs the user out by clearing the token from localStorage and redirecting.
  * This is the function that was causing the error.
  */
+// NEW CODE:
 function logout() {
-  // 1. Remove the token from the browser's storage
+  console.log("Logging out user...");
   localStorage.removeItem("token");
-
-  // 2. Redirect the user to the login page
-  window.location.href = "/login.html";
+  console.log("Token removed, redirecting to login");
+  window.location.replace("/login.html");  
 }

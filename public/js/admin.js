@@ -2,10 +2,19 @@
 
 document.addEventListener("DOMContentLoaded", async () => {
   // 1. --- Security Check ---
+  // NEW CODE:
   const user = getCurrentUser();
-  if (!user || user.role !== "admin") {
-    alert("Access Denied. Please login as an admin.");
-    window.location.href = "login.html";
+  if (!user) {
+    console.log("❌ No valid token found - redirecting to login");
+    window.location.replace("/login.html"); // ✅ CHANGED
+    return;
+  }
+
+  if (user.role !== "admin") {
+    console.log("❌ User role is:", user.role, "- not an admin");
+    alert("Access Denied. This page is for admins only.");
+    localStorage.removeItem("token");
+    window.location.replace("/login.html"); // ✅ CHANGED
     return;
   }
 
