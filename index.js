@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/authRoutes.js")
+ const paymentRoutes = require("./routes/paymentRoutes.js")
 
 dotenv.config();
 const app = express();
@@ -24,14 +25,17 @@ mongoose
   app.use(bodyParser.urlencoded({ extend: true }));
 
 // statically load the public folder
-app.use(express.static(path.join(__dirname, "public")));
+const __dirnameValue = path.resolve();
+app.use(express.static(path.join(__dirnameValue, "public")));
+
+app.use("/uploads", express.static(path.join(__dirnameValue, "uploads")));
 
 // Routes
 app.use("/auth", authRoutes);
-
+app.use('/payments',paymentRoutes);
 // Serve the login.hthml from the public folder for home route /.
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "login.html"));
+  res.sendFile(path.join(__dirnameValue, "public", "login.html"));
 });
 
 app.listen(PORT, () => {

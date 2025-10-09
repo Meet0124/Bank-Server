@@ -22,6 +22,7 @@ const UsersSchema = new mongoose.Schema({
     type: Number,
     default: 10000,
   },
+  profilePath: { type: String, default: "" },
 });
 const User = mongoose.model("User", UsersSchema);
 
